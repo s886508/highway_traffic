@@ -24,9 +24,16 @@ def decompress(file_path, output_folder):
     return True
 
 
-def decompress_all_data():
+def decompress_traffic_data(year, month, hour, interval=10):
+    """
+    Decompress downloaded data.
+    :param year: Indicate begin and end year. ex: (2018, 2018)
+    :param month: Indicate begin and end month. ex: (1, 12)
+    :param hour: Indicate begin and end month. ex: (6, 9)
+    :param interval: Data record intervals.
+    """
     data_folder = os.path.dirname(os.path.abspath(__file__))
-    for date, name in data_name_gen():
+    for date, name in data_name_gen(year, month, hour, interval):
         file_path = os.path.join(data_folder, 'road_level_data', date, name)
         output_folder = os.path.join(data_folder, 'road_level_data_raw', date)
         decompress(file_path, output_folder)

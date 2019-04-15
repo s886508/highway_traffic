@@ -5,7 +5,7 @@ import requests
 import random
 
 
-def retrieve_data(url, path):
+def _retrieve_data(url, path):
     """
     Get file from website and save to given path/
     :param url: Remote file to access.
@@ -39,18 +39,25 @@ def retrieve_data(url, path):
     return 0
 
 
-def retrieve_all_data():
+def retrieve_traffic_data(year, month, hour, interval=10):
+    """
+    Retrieve data from given period.
+    :param year: Indicate begin and end year. ex: (2018, 2018)
+    :param month: Indicate begin and end month. ex: (1, 12)
+    :param hour: Indicate begin and end month. ex: (6, 9)
+    :param interval: Data record intervals.
+    """
     from util.utility import data_name_gen
 
     root_url = 'http://tisvcloud.freeway.gov.tw/history/roadlevel'
     root_path = 'D:/GitProjects/highway_traffic/data/road_level_data'
 
-    for date, name in data_name_gen():
+    for date, name in data_name_gen(year, month, hour, interval):
         path = os.path.join(root_path, date)
         url = '%s/%s/%s' % (root_url, date, name)
 
         print('Collecting data from %s' % url)
-        ret = retrieve_data(url, path)
+        ret = _retrieve_data(url, path)
         print('Collecting data complete ret = %d' % ret)
 
         if ret <= 0:
