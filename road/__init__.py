@@ -8,6 +8,23 @@ class RoadLevel:
     min_speed = -99
 
     @staticmethod
+    def create(level):
+        """
+        Create RoadLevel instance.
+        :param level: integer of level.
+        :return: RoadLevel
+        """
+        if level == 1:
+            return RoadLevel.lv1()
+        if level == 2:
+            return RoadLevel.lv2()
+        if level == 3:
+            return RoadLevel.lv3()
+        if level == 4:
+            return RoadLevel.lv4()
+        return RoadLevel.invalid()
+
+    @staticmethod
     def lv1():
         lv = RoadLevel()
         lv.label = '順暢'
@@ -90,7 +107,7 @@ class TrafficData:
 
     def __init__(self, dicts):
         self.section_id = dicts['routeid']
-        self.section_level = dicts['level']
+        self.section_level = RoadLevel.create(int(dicts['level']))
         self.travel_speed = int(dicts['value'])
         self.travel_time = int(dicts['traveltime'])
         self.collect_time = dicts['datacollecttime']

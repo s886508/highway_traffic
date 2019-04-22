@@ -45,7 +45,7 @@ def read_traffic_data(year, month, hour, interval):
     :return dict with key is date and list of data.s
     """
 
-    data_folder = os.getcwd()
+    data_folder = os.path.dirname(os.path.abspath(__file__))
     for date, name in data_name_gen(year, month, hour, interval):
         file_path = os.path.join(data_folder, '..', 'data', 'road_level_data_raw', date, name)
         parse_traffic_data(file_path)
