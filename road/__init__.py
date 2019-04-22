@@ -2,9 +2,10 @@
 
 
 class RoadLevel:
-    label = ''
-    max_speed = 0
-    min_speed = 0
+    level = -1
+    label = 'Unknown'
+    max_speed = -99
+    min_speed = -99
 
     @staticmethod
     def lv1():
@@ -38,6 +39,14 @@ class RoadLevel:
         lv.min_speed = 0
         return lv
 
+    @staticmethod
+    def invalid():
+        return RoadLevel()
+
+    def __str__(self):
+        return 'Label: %s\n' \
+               'Min Speed: %d Max Speed: %d'
+
 
 class RoadSection:
     section_id = -1
@@ -70,3 +79,26 @@ class RoadSection:
                'type: %d\n' % (
                self.section_id, self.section_label, self.point_start, self.point_end, self.km_from, self.km_to,
                self.location_path_id, self.type)
+
+
+class TrafficData:
+    section_id = -1
+    section_level = RoadLevel.invalid()
+    travel_speed = -1  # km/h
+    travel_time = -1   # seconds
+    collect_time = ''  # 2018/09/18 15:41:00
+
+    def __init__(self, dicts):
+        self.section_id = dicts['routeid']
+        self.section_level = dicts['level']
+        self.travel_speed = int(dicts['value'])
+        self.travel_time = int(dicts['traveltime'])
+        self.collect_time = dicts['datacollecttime']
+
+    def __str__(self):
+        return 'section_id: %s\n' \
+               'section_level: %s\n' \
+               'travel_speed: %d\n' \
+               'travel_time: %d\n' \
+               'collect_time: %s\n' % (self.section_id, self.section_level, self.travel_speed, self.travel_time,
+                                       self.collect_time)

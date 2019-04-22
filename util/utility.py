@@ -16,4 +16,4 @@ def data_name_gen(year, month, hour, interval=10):
     for date in date_gen:
         time_gen = ('%02d%02d' % (hour, minute) for hour in hours for minute in minutes)
         for t in time_gen:
-            yield (date, 'roadlevel_value_%s.xml.gz' % t)
+            yield (date, 'roadlevel_value_%s.xml' % t)

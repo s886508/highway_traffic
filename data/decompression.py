@@ -34,7 +34,7 @@ def decompress_traffic_data(year, month, hour, interval=10):
     """
     data_folder = os.path.dirname(os.path.abspath(__file__))
     for date, name in data_name_gen(year, month, hour, interval):
-        file_path = os.path.join(data_folder, 'road_level_data', date, name)
+        file_path = os.path.join(data_folder, 'road_level_data', date, name + '.gz')
         output_folder = os.path.join(data_folder, 'road_level_data_raw', date)
         decompress(file_path, output_folder)
 

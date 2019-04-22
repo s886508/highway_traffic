@@ -54,7 +54,7 @@ def retrieve_traffic_data(year, month, hour, interval=10):
 
     for date, name in data_name_gen(year, month, hour, interval):
         path = os.path.join(root_path, date)
-        url = '%s/%s/%s' % (root_url, date, name)
+        url = '%s/%s/%s' % (root_url, date, name + '.gz')
 
         print('Collecting data from %s' % url)
         ret = _retrieve_data(url, path)
