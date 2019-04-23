@@ -28,11 +28,8 @@ def parse_traffic_data(path):
     :return: list of TrafficData
     """
     node_root = ElementTree.parse(path).getroot()
-
-    collected = []
-    for node_child in node_root.findall('Infos/Info'):
-        collected.append(TrafficData(node_child.attrib))
-    return collected
+    return [(node_child.attrib['routeid'], TrafficData(node_child.attrib))
+            for node_child in node_root.findall('Infos/Info')]
 
 
 def read_traffic_data(year, month, hour, interval):
@@ -42,17 +39,27 @@ def read_traffic_data(year, month, hour, interval):
     :param month: Indicate begin and end month. ex: (1, 12)
     :param hour: Indicate begin and end month. ex: (6, 9)
     :param interval: Data record intervals.
-    :return dict with key is date and list of data.s
+    :return dict with key is section_id and list of traffic data.
     """
 
+    traffic_data_dict = {}
     data_folder = os.path.dirname(os.path.abspath(__file__))
     for date, name in data_name_gen(year, month, hour, interval):
         file_path = os.path.join(data_folder, '..', 'data', 'road_level_data_raw', date, name)
-        parse_traffic_data(file_path)
+        if os.path.exists(file_path):
+            collect_data = parse_traffic_data(file_path)
+            for section_id, traffic_info in collect_data:
+                data_list_by_section = traffic_data_dict.setdefault(section_id, [])
+                data_list_by_section.append(traffic_info)
+    return traffic_data_dict
 
 
 if __name__ == '__main__':
     #path = os.path.join(os.getcwd(), '../data/road_level_info/roadlevel_info_0000.xml')
     #parse_road_info(path)
-    read_traffic_data((2018, 2018), (1, 3), (6, 9), 10)
+    data = read_traffic_data((2018, 2018), (1, 3), (6, 7), 10)
+    for k, v in data.items():
+        print(k)
+        for d in v:
+            print(d)
 

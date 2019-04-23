@@ -61,8 +61,7 @@ class RoadLevel:
         return RoadLevel()
 
     def __str__(self):
-        return 'Label: %s\n' \
-               'Min Speed: %d Max Speed: %d'
+        return 'Label: {0}, Min Speed: {1}, Max Speed: {2}'.format(self.label, self.min_speed, self.max_speed)
 
 
 class RoadSection:
@@ -99,23 +98,19 @@ class RoadSection:
 
 
 class TrafficData:
-    section_id = -1
     section_level = RoadLevel.invalid()
     travel_speed = -1  # km/h
     travel_time = -1   # seconds
     collect_time = ''  # 2018/09/18 15:41:00
 
     def __init__(self, dicts):
-        self.section_id = dicts['routeid']
         self.section_level = RoadLevel.create(int(dicts['level']))
         self.travel_speed = int(dicts['value'])
         self.travel_time = int(dicts['traveltime'])
         self.collect_time = dicts['datacollecttime']
 
     def __str__(self):
-        return 'section_id: %s\n' \
-               'section_level: %s\n' \
-               'travel_speed: %d\n' \
-               'travel_time: %d\n' \
-               'collect_time: %s\n' % (self.section_id, self.section_level, self.travel_speed, self.travel_time,
-                                       self.collect_time)
+        return 'section_level: {0}\n' \
+               'travel_speed: {1}\n' \
+               'travel_time: {2}\n' \
+               'collect_time: {3}\n'.format(self.section_level, self.travel_speed, self.travel_time, self.collect_time)
