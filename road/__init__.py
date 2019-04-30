@@ -1,4 +1,5 @@
 # coding = uff-8
+import time
 
 
 class RoadLevel:
@@ -102,15 +103,17 @@ class TrafficData:
     travel_speed = -1  # km/h
     travel_time = -1   # seconds
     collect_time = ''  # 2018/09/18 15:41:00
+    _time_format = '%Y/%m/%d %H:%M:%S'
 
     def __init__(self, dicts):
         self.section_level = RoadLevel.create(int(dicts['level']))
         self.travel_speed = int(dicts['value'])
         self.travel_time = int(dicts['traveltime'])
-        self.collect_time = dicts['datacollecttime']
+        self.collect_time = time.strptime(dicts['datacollecttime'], self._time_format)
 
     def __str__(self):
         return 'section_level: {0}\n' \
                'travel_speed: {1}\n' \
                'travel_time: {2}\n' \
-               'collect_time: {3}\n'.format(self.section_level, self.travel_speed, self.travel_time, self.collect_time)
+               'collect_time: {3}\n'.format(self.section_level, self.travel_speed, self.travel_time,
+                                            time.strftime(self._time_format, self.collect_time))
